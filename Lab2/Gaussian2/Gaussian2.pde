@@ -4,6 +4,13 @@
 import java.util.*;
 Random generator;
 
+/*
+Name: Keenan McEntee
+SID: C00201892
+Subject: GPP
+Summary: Added random generator to generate random size of circles.
+*/
+
 void setup() {
   size(2000,2000);
   background(0);
