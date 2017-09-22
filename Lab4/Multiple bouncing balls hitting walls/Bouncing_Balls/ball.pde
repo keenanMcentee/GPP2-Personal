@@ -30,19 +30,19 @@ class Ball{
   
   void checkCollision()
   {
-    if (location.x < (0 + 24))
+    if (location.x < 0)
     {
       velocity.set(velocity.x * -1, velocity.y); 
     }
-    else if (location.y < (0 + 24))
+    else if (location.y < 0)
     {
       velocity.set(velocity.x , velocity.y* -1); 
     }
-    else if (location.x > (800 - 24))
+    else if (location.x > 800)
     {
       velocity.set(velocity.x * -1, velocity.y); 
     }
-    else if (location.y > (800-24))
+    else if (location.y > 800)
     {
       velocity.set(velocity.x, velocity.y * -1); 
     }

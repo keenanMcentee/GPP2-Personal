@@ -38,7 +38,7 @@ class Ball{
     {
       velocity.set(velocity.x , velocity.y* -1); 
     }
-    else if (location.x > (800 - 24))
+    else if (location.x > (800-24))
     {
       velocity.set(velocity.x * -1, velocity.y); 
     }
