@@ -1,3 +1,9 @@
+/*
+Authors: Keenan McEntee & Keith Wilson
+Date Started: 22/09/2017
+*/
+
+
 import java.util.*;
 PVector startPos;
 PVector missilePos;

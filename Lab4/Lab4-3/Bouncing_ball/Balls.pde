@@ -3,17 +3,14 @@ import java.util.*;
 
 class Ball{
   public PVector location;
-  public PVector previousLocation;
   public PVector velocity;
   color m_color = color(255,255,255);
   public int timer;
   float speed;
   public float radius = 0;
-  
   Ball(Random generator)
   {
     timer = millis();
-    
     location = new PVector(100,100);
     velocity = new PVector(generator.nextFloat() * 10, generator.nextFloat() * 10);
     stroke(0);
@@ -24,10 +21,7 @@ class Ball{
   
   void update()
   {
-    
     velocity.mult(speed);
-    previousLocation = location;
-    //previousLocation.sub(velocity);
     location.add(velocity);
     checkCollision();
     if ((timer + 1000) < millis())
@@ -79,7 +73,6 @@ class Ball{
       this.timer = millis();
       this.m_color = color(255,0,0);
       ball.m_color = color(255,0,0);
-      location = previousLocation;
       elasticCollision(ball);
       return true;
       
@@ -92,15 +85,13 @@ class Ball{
   
   void elasticCollision(Ball ball)
   {
-     this.location.sub(this.velocity);
-     ball.location.sub(ball.velocity);
      PVector v1Initial = this.velocity;
      PVector v2Initial = ball.velocity;
-     float mass1 = radius * 0.1;
-     float mass2 = radius * 0.1;
+     float mass1 = radius;
+     float mass2 = radius;
     
-     this.velocity.set( (v1Initial.mult(mass2 - mass1).add(v2Initial.mult(2*mass2))).div(mass1 + mass2)).div(2);
-     ball.velocity.set( (v2Initial.mult(mass1 - mass2).add(v1Initial.mult(2*mass1))).div(mass1 + mass2)).div(2);
+     this.velocity.set( (v1Initial.mult(mass1 - mass2).add(v2Initial.mult(2*mass1))).div(mass1 + mass2));
+     ball.velocity.set( (v2Initial.mult(mass2 - mass1).add(v2Initial.mult(2*mass2))).div(mass1 + mass2));
   }
   
 }
