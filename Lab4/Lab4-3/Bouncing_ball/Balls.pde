@@ -1,5 +1,9 @@
 import java.util.*;
-
+/*
+@Author: Keenan McEntee
+@Subject: Gameplay Programming
+@Class Summary: Ball object for our bouncing balls simulations.
+*/
 
 class Ball{
   public PVector location;
@@ -85,13 +89,20 @@ class Ball{
   
   void elasticCollision(Ball ball)
   {
-     PVector v1Initial = this.velocity;
-     PVector v2Initial = ball.velocity;
-     float mass1 = radius;
-     float mass2 = radius;
-    
-     this.velocity.set( (v1Initial.mult(mass1 - mass2).add(v2Initial.mult(2*mass1))).div(mass1 + mass2));
-     ball.velocity.set( (v2Initial.mult(mass2 - mass1).add(v2Initial.mult(2*mass2))).div(mass1 + mass2));
+      
+     PVector v1;
+     PVector v2;
+     PVector u1 = new PVector(ball.velocity.x, ball.velocity.y);
+     PVector u2 = new PVector(this.velocity.x, this.velocity.y);
+     float m1 = ball.radius;
+     float m2 = this.radius;
+     
+     v1 = PVector.div(PVector.add(PVector.mult(u1,(m1-m2)), PVector.mult(u2,(2*m2))), (m1 + m2));
+     v2 = PVector.div(PVector.add(PVector.mult(u2,(m2 - m1)), PVector.mult(u1,(2*m1))), (m1 + m2));
+     
+     ball.velocity = v1;
+     this.velocity = v2;
+     
   }
   
 }

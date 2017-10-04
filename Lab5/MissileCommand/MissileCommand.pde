@@ -5,95 +5,96 @@ Date Started: 22/09/2017
 
 
 import java.util.*;
-PVector startPos;
-PVector missilePos;
-PVector mouseClickPos;
-PVector missileVelocity;
-boolean drawLine;
+int count;
+final int NUM_OF_MISSILES = 5;
+Missile[] friendlyMissile = new Missile[NUM_OF_MISSILES];
+Missile[] enemyMissile = new Missile[NUM_OF_MISSILES];
+boolean gameOver;
+PImage endGame;
+PFont font = new PFont();
 void setup()
 {
+  font = createFont("ARIALNBI",32);
+  textFont(font, 32);
+  endGame = loadImage("Game_Over.jpg");
+  gameOver = false;
   size(1960,1080);
-  startPos = new PVector(width/2, height);
-  missilePos = new PVector(startPos.x, startPos.y);
+  for (int i = 0; i < NUM_OF_MISSILES; i++)
+  {
+     friendlyMissile[i] = new Missile("friendly"); 
+  }
+  for (int i = 0; i < NUM_OF_MISSILES; i++)
+  {
+     enemyMissile[i] = new Missile("enemy"); 
+  }
 }
 
 void draw()
 {
-    update();
-    display();
-}
-
-void update()
-{
-   goToPoint(mouseClickPos, missilePos);
-   debug();
-}
-void display()
-{
-    background(255);
-    if (drawLine)
-      line(startPos.x,startPos.y,missilePos.x,missilePos.y);
-    
-}
-void mouseClicked()
-{
-  if(mouseClickPos == null)
-     mouseClickPos = new PVector((int)mouseX,(int)mouseY); 
-     drawLine = true;
-}
-void goToPoint(PVector newLoc,PVector currentLoc)
-{
-    if (newLoc != null)
+  background(0);
+  text("Score: "+ count, 10,50);
+  if (!gameOver)
+  {
+    enemyMissileHandle();
+  for (int i = 0; i < NUM_OF_MISSILES; i++)
+   {
+     friendlyMissile[i].update(); 
+     enemyMissile[i].update();
+   }
+    for (int i = 0; i < NUM_OF_MISSILES; i++)
     {
-        
-        if (missileVelocity == null)
-        {
-          missileVelocity = new PVector((sqrt(sq((newLoc.x - currentLoc.x) /100))), (sqrt(sq((newLoc.y - currentLoc.y) / 100)))); 
-        }
-        
-        if (missileVelocity.x == 0 && missileVelocity.y == 0)
-        {
-           drawLine = false;
-        }
-        else
-        {
-          if (currentLoc.x < newLoc.x)
-          {
-            currentLoc.x += missileVelocity.x;
-          }
-          else if(currentLoc.x > newLoc.x)
-          {
-            currentLoc.x -= missileVelocity.x;
-          }
-          if (currentLoc.y > newLoc.y)
-          {
-            currentLoc.y -= missileVelocity.y; 
-          }
-          if (currentLoc.y < newLoc.y)
-          {
-            currentLoc.y += missileVelocity.y; 
-          }
-          if (-10 < currentLoc.x - newLoc.x && currentLoc.x - newLoc.x < 10)
-          {
-            currentLoc.x = floor(currentLoc.x);
-            missileVelocity.x = 0;
-          }
-          if (-10 < currentLoc.y - newLoc.y && currentLoc.y - newLoc.y < 10)
-          {
-            currentLoc.y = floor(currentLoc.y);
-            missileVelocity.y = 0;
-          }
-        }
-        
+     friendlyMissile[i].display(); 
+     enemyMissile[i].display();
     }
+    
+    for(int i = 0; i < NUM_OF_MISSILES; i++)
+    {
+      if (friendlyMissile[i].m_velocity != null)
+      {
+        for (int j = 0; j < NUM_OF_MISSILES; j++)
+         {
+           if (enemyMissile[j].m_velocity != null){
+             if(friendlyMissile[i].collideEnemyMissile(enemyMissile[j]))
+             {
+              count += 100 *  enemyMissile[j].speed;
+             }
+           }
+         }
+      }
+     println(count);
+    }
+  }
+  else
+  {
+    image(endGame,width/2.8,height/3);
+  }
 }
-
-void debug()
+void mousePressed()
 {
-    println("Start pos:" +startPos);
-    println("Click pos:" +mouseClickPos);
-    println("Missile pos:" + missilePos);
-    println("x:"+mouseX+",y:"+mouseY);
-    println("Velocity:" + missileVelocity);
-    println("\n \n \n \n \n ");
+   //<>//
+  for(int i = 0; i < NUM_OF_MISSILES; i++)
+  {
+     if (friendlyMissile[i].status == missileState.DEAD)
+     {
+       friendlyMissile[i].initialiseFriendly(new PVector(mouseX,mouseY));
+       break;
+     }
+  }
+  println("CLICKED");
+}
+void enemyMissileHandle()
+{
+  for(int i = 0; i <  NUM_OF_MISSILES; i++)
+  {
+     if (enemyMissile[i].status == missileState.DEAD)
+     {
+       enemyMissile[i].initialiseEnemy();
+       enemyMissile[i].speed += 0.2;
+       break;
+     }
+     if (enemyMissile[i].hitTarget() == true)
+     {
+       gameOver = true;
+     }
+  }
 }
