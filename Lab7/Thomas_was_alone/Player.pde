@@ -10,10 +10,14 @@ class Player
     m_size = new PVector(20,60);
     m_position = new PVector(20, m_groundPosition.y - m_size.y);
   }
-  void Update(PVector goalPosition, PVector goalSize)
+  void Update(PVector pos, PVector size)
   {
     HandleMovement(); 
-    checkIfInGoal(goalPosition,goalSize);
+    checkIfInGoal(pos,size);
+  }
+  PVector getPosition()
+  {
+   return m_position; 
   }
  void Display()
  {
@@ -37,12 +41,9 @@ class Player
         }
       }
  }
- void checkIfInGoal(PVector goalPosition, PVector goalSize)
+ void checkIfInGoal(PVector pos, PVector size)
  {
-  if ((m_position.x < goalPosition.x + goalSize.x && 
-       m_position.x + m_size.x >  goalPosition.x && 
-       m_position.y < goalPosition.y + goalSize.y && 
-       m_position.y + m_size.y > goalPosition.y))
+  if (collideWith(pos,size))
   {
     setColor(255,255,255);
   }
@@ -64,5 +65,20 @@ class Player
  void MoveRight()
  {
    m_position.x += m_speed;
+ }
+ 
+ boolean collideWith(PVector pos, PVector size)
+ {
+   if ((m_position.x < pos.x + size.x && 
+       m_position.x + m_size.x >  pos.x && 
+       m_position.y < pos.y + size.y && 
+       m_position.y + m_size.y > pos.y))
+  {
+    return true;
+  }
+  else
+  {
+   return false; 
+  }
  }
 }
