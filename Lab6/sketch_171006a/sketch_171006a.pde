@@ -21,12 +21,14 @@ void draw()
      target = new Target();
   }
   target.Display();
+  
   ball.Update(cannon.m_angle);
   if (ball.getPosition().x > 800)
   {
    ball = new Ball(); 
   }
   ball.Display();
+  
   cannon.Update();
   cannon.Display();
   
