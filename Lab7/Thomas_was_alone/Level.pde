@@ -9,7 +9,7 @@ class Level
     screenSize = new PVector(m_width,m_height);
     groundPosition = new PVector(0,400);
     goal = new Goal(new PVector(screenSize.x - 50, groundPosition.y - 60));
-    obstacle = new Obstacle(m_width - 300, (int)groundPosition.y - 30, 40,30);
+    obstacle = new Obstacle(m_width - 300, (int)groundPosition.y - 60, 40,90);
   }
   Goal getGoal()
   {

@@ -28,15 +28,33 @@ void Display()
 
 void playerObstacleCollision(Obstacle obstacle)
 {
-  if (player.collideWith(obstacle.getPosition(), obstacle.getSize()))
+  if (player.collideWith(obstacle.getPosition(), obstacle.getSize()) && player.getPosition().y + player.getSize().y > obstacle.getPosition().y)
   {
-    if (player.getPosition().x < obstacle.getPosition().x)
+    if (player.getPosition().y + player.getSize().y - 10 > obstacle.getPosition().y)
+    {
+      player.setPosition(new PVector(player.getPosition().x, obstacle.getPosition().y - player.getSize().y));
+    }
+    if (player.getPosition().x < obstacle.getPosition().x && player.getPosition().y + player.getSize().y > obstacle.getPosition().y)
     {
       player.MoveLeft();
     }
-    else if (player.getPosition().x > (obstacle.getPosition().x + obstacle.getSize().x))
+    else if (player.getPosition().x > (obstacle.getPosition().x)  && player.getPosition().y + player.getSize().y > obstacle.getPosition().y)
     {
      player.MoveRight(); 
     }
+  }
+}
+void keyPressed()
+{
+  if (key == CODED)
+  {
+    if (keyCode == UP)
+    {
+     player.Jump(); 
+    }
+  }
+  if (key == ' ')
+  {
+   player.Jump(); 
   }
 }
