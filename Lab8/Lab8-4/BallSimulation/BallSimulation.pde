@@ -31,7 +31,7 @@ void draw()
    {
     myMovie.pause();
    }
-   if (key == 's' || key == 'S')
+   if (key == ' ')
    {
     myMovie.play(); 
    }

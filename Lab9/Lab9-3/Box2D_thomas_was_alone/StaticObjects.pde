@@ -9,10 +9,6 @@ class StaticObject
      h = _h;
      body = makeBody(box2d, new Vec2(x,y),w,h, BodyType.STATIC);
    }
-   void update()
-   {
-     
-   }
    void display()
    {
     Vec2 pos = box2d.getBodyPixelCoord(body);
